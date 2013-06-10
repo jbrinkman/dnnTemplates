@@ -1,0 +1,54 @@
+﻿<#@ template language="C#" hostSpecific="true" #>
+<#@ output extension=".txt" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="dnnTemplates" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="dnnTemplates.Models" #>
+<#
+ViewControlModel data = Host.GetHostOption("Data") as ViewControlModel;
+#>using System;
+using DotNetNuke.Entities.Modules;
+<# if (data.IncludeMenu) { #>
+using DotNetNuke.Entities.Modules.Actions;
+using DotNetNuke.Security;
+<# } #>
+using DotNetNuke.Services.Exceptions;
+using DotNetNuke.Services.Localization;
+
+namespace <#= data.NameSpace #>
+{
+	public partial class <#= data.ItemName #>: PortalModuleBase<# if (data.IncludeMenu) { #>, IActionable<# } #>
+	{
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            try
+            {
+				
+            }
+            catch (Exception exc) //Module failed to load
+            {
+                Exceptions.ProcessModuleLoadException(this, exc);
+            }
+        }
+
+	<# if (data.IncludeMenu) { #>
+		public ModuleActionCollection ModuleActions
+        {
+            get
+            {
+                var actions = new ModuleActionCollection
+                    {
+                        {
+                            GetNextActionID(), Localization.GetString("EditModule", LocalResourceFile), "", "", "",
+                            EditUrl(), false, SecurityAccessLevel.Edit, true, false
+                        }
+                    };
+                return actions;
+
+            }
+        }
+	<# } #>
+	}
+}

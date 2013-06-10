@@ -1,0 +1,24 @@
+﻿<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+  <TemplateData>
+    <DefaultName>View</DefaultName>
+    <Name>DNN View Control</Name>
+    <Description>Creates a new view control for your DNN module project</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>0</SortOrder>
+    <Icon>DataLayer.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <References />
+    <ProjectItem SubType="Code" TargetFileName="$fileinputname$.ascx" ReplaceParameters="true">viewclass.ascx.txt</ProjectItem>
+    <ProjectItem SubType="Code" TargetFileName="$fileinputname$.ascx.cs" ReplaceParameters="true">viewclass.ascx.cs.txt</ProjectItem>
+    <ProjectItem SubType="Code" TargetFileName="$fileinputname$.ascx.designer.cs" ReplaceParameters="true">viewclass.ascx.designer.txt</ProjectItem>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>dnnTemplates, Version=1.0.0.0, Culture=neutral, PublicKeyToken=35928e0949cd0f52</Assembly>
+    <FullClassName>dnnTemplates.ViewControlWizard</FullClassName>
+  </WizardExtension>
+  <WizardData Name="T4templates">
+    [{token:'templateOutput', filename:'viewClass.tt', embeddedresource: true},
+    {token:'copyright', filename:'copyright.tt', embeddedresource: true}]
+  </WizardData>
+</VSTemplate>

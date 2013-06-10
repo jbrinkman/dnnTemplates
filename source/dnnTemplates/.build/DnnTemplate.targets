@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+
+<!-- WARNING, WARNING, WARNING -->
+<!-- REMEMBER THAT IF YOU MODIFY THE TARGETS FILE YOU NEED TO CLOSE/OPEN THE PROJECT FOR THE CHANGES TO TAKE EFFECT -->
+
+<Project ToolsVersion="4.0" DefaultTargets="AfterBuild" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="MSBuild.Community.Tasks.Targets" />
+  <Target Name="AfterBuild" DependsOnTargets="InstallAssembly; InstallTemplate"></Target>
+
+  <PropertyGroup>
+    <TemplatePath>$(MSBuildProjectDirectory)\VSTemplates</TemplatePath>
+    <PackagePath>$(MSBuildProjectDirectory)\..\TemplatePackages</PackagePath>
+    <RootItemTemplatePath>$([System.Environment]::GetFolderPath(SpecialFolder.MyDocuments))\Visual Studio 2012\Templates\ItemTemplates\</RootItemTemplatePath>
+    <CSharpTemplatePath>$(RootItemTemplatePath)Visual C#\</CSharpTemplatePath>
+    <VBTemplatePath>$(RootItemTemplatePath)Visual Basic\</VBTemplatePath>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ViewControlZipFiles Include="$(TemplatePath)\ViewControl\**" />
+    <DataLayerZipFiles Include="$(TemplatePath)\DataLayer\**" />
+    <WebServicZipFiles Include="$(TemplatePath)\WebService\**" />
+    <Assembly Include="$(MSBuildProjectDirectory)\$(OutputPath)$(AssemblyName).dll" />
+  </ItemGroup>
+
+  <Target Name="InstallAssembly">
+    <GacUtil Command="Uninstall" Assemblies="%(Assembly.Filename)" />
+    <GacUtil Command="Install" Assemblies="@(Assembly)" />
+  </Target>
+
+
+  <Target Name="CreateTemplate">
+    <Zip ZipFileName="DNN ViewControl.zip" WorkingDirectory="%(ViewControlZipFiles.RelativeDir)" Files="@(ViewControlZipFiles)" />
+    <Zip ZipFileName="DNN DataService.zip" WorkingDirectory="%(DataLayerZipFiles.RelativeDir)" Files="@(DataLayerZipFiles)" />
+    <!--<Zip ZipFileName="DNNWebService.zip" WorkingDirectory="%(WebServicZipFiles.RelativeDir)" Files="@(WebServicZipFiles)" />-->
+    
+    <ItemGroup>
+      <ZipFiles Include="$(MSBuildProjectDirectory)\*.zip" />
+    </ItemGroup>
+    
+    <Copy SourceFiles="@(ZipFiles)" DestinationFolder="$(PackagePath)" />
+    <Delete Files="@(ZipFiles)" />
+  
+    
+  </Target>
+
+  <Target Name="CleanTemplates">
+    <ItemGroup>
+      <ItemTemplateFiles Include="$(PackagePath)\*.zip" />
+    </ItemGroup>
+    <Delete Files="@(ZipFiles)" />  
+  </Target>
+    
+  <Target Name="InstallTemplate" DependsOnTargets="CreateTemplate; CleanTemplates">
+    
+    <Copy SourceFiles="@(ItemTemplateFiles)" DestinationFolder="$(CSharpTemplatePath)" />
+  
+  </Target>
+</Project>

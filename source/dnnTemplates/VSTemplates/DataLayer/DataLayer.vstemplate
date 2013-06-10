@@ -1,0 +1,19 @@
+﻿<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+  <TemplateData>
+    <DefaultName>Item</DefaultName>
+    <Name>DotNetNuke Data</Name>
+    <Description>Creates new Data Layer</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>0</SortOrder>
+    <Icon>DataLayer.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <References />
+    <ProjectItem SubType="Code" TargetFileName="$fileinputname$.cs" ReplaceParameters="true">itemclass.cs.txt</ProjectItem>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>dnnTemplates, Version=1.0.0.0, Culture=neutral, PublicKeyToken=35928e0949cd0f52</Assembly>
+    <FullClassName>dnnTemplates.DataLayerWizard</FullClassName>
+  </WizardExtension>
+  <WizardData Name="templateType">DataLayer</WizardData>
+</VSTemplate>
